@@ -12,12 +12,16 @@ public class RefactorSpecialNumbers_12 {
         for (int i = 1; i <= amount; i++) {
             int total = 0;
             int temp = i;
-            do {
+            while (temp > 0) {
                 total += i % 10;
-                temp /=  10;
-            } while (temp > 0);
-            if (total == 5 || total == 7 || total == 11) System.out.printf("%d -> True\n", i);
-            else System.out.printf("%d -> False \n", i);
+                temp = temp / 10;
+            }
+            boolean isSpecialNumber = (total == 5 || total == 7 || total == 11);
+            String tF = "";
+            if (isSpecialNumber) tF = "True";
+            else tF = "False";
+
+            System.out.printf("%d -> %s\n", i, tF);
         }
     }
 }
