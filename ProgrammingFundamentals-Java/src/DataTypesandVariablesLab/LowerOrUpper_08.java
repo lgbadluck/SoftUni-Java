@@ -17,13 +17,12 @@ public class LowerOrUpper_08 {
         System.out.printf("Z: %d, z: %d\n", (int)z, (int)x);
         */
 
-        String input = scanner.nextLine();
-        char char1 = input.charAt(0);
+        char char1 = scanner.nextLine().charAt(0);
 
-        if ((int)char1 > (int)'A' && (int)char1 < (int)'Z') {
+        if ((int)char1 >= (int)'A' && (int)char1 <= (int)'Z') {
             System.out.println("upper-case");
         }
-        if ((int)char1 > (int)'a' && (int)char1 < (int)'z') {
+        if ((int)char1 >= (int)'a' && (int)char1 <= (int)'z') {
             System.out.println("lower-case");
         }
     }
