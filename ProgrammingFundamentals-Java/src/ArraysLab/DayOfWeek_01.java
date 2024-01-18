@@ -6,7 +6,7 @@ public class DayOfWeek_01 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        String[] days = new String [8];
+        String[] days = new String[8];
 
         days[0]="Invalid day!";
         days[1]="Monday";
