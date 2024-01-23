@@ -90,8 +90,8 @@ public class KaminoFactory_05 {
                     bestSample = sample;
                 }
             }
-            
-            input = scanner.nextLine();            
+
+            input = scanner.nextLine();
         }
         System.out.printf("Best DNA sample %d with sum: %d.\n", sampleBestRow, sumBest);
         for (int i = 0; i < n; i++) {
