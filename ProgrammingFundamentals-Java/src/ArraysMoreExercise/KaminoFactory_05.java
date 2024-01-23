@@ -9,43 +9,94 @@ public class KaminoFactory_05 {
         Scanner scanner = new Scanner(System.in);
 
         int n = Integer.parseInt(scanner.nextLine());
-        int sampleBestIdx = -1;
-        int countBest = 0;
-        int countCurrBest = 0;
-        int countPrevBest = 0;
-        int sumBest = 0;
+        int startIdx = Integer.MAX_VALUE;
+        int prevStartIdx = Integer.MAX_VALUE;
+        int bestStartIdx = Integer.MAX_VALUE;
+        int sampleBestRow = -1;
+        int countBest = -1;
+        int countCurrBest = -1;
+        int countPrevBest = -1;
+        int sumBest = -1;
 
-        String bestSample = "";
-
-        //int[] dnaSample = Arrays.stream(scanner.nextLine().split("!")).mapToInt(Integer::parseInt).toArray();
-
+        int[] bestSample = new int[n];
         String input = scanner.nextLine();
+
+        int row = 0;
         while (!input.equals("Clone them!")) {
-            int idx = 1;
-            int[] sample = Arrays.stream(input.split("!")).mapToInt(Integer::parseInt).toArray();
-            int sum = 0;
-            int count = 0;
+            row++;
+            int[] sample = Arrays.stream(input.split("[!]+")).mapToInt(Integer::parseInt).toArray();
+/*
+            System.out.print("\n");
             for (int i = 0; i < n; i++) {
-                if (sample[i] == 1) {
-                    count++;
-                    sum += sample[i];
+                System.out.print(bestSample[i] + " ");
+            }
+            System.out.print("\n");
+*/
+
+
+            int sum = 0;
+            for (int i = 0; i < n; i++) {
+                sum+=sample[i];
+            }
+            boolean isChanged = false;
+            int counter = 0;
+            for (int i = 0; i < n-1; i++) {
+                boolean doCompare = false;
+                startIdx = i;
+                if (sample[i] == 1 && sample[i + 1]==1 ) {
+                    //if (counter==0) startIdx = i;
+                    counter++;
+                    if (i==sample.length-2) {
+                        countCurrBest = counter;
+                        doCompare =true;
+                    }
                 } else {
-                    if (count > countCurrBest) countCurrBest = count;
-                    count = 0;
+                    if (counter > 0) {
+                        countCurrBest = counter;
+                        doCompare =true;
+                    }
+                    counter = 0;
+                } if (doCompare) {
+                    if(countCurrBest>=countPrevBest && countCurrBest>0) {
+                        isChanged = true;
+                        if(countCurrBest>countBest) {
+                            bestStartIdx = startIdx;
+                            countBest = countCurrBest;
+                            sampleBestRow = row;
+                            bestSample = sample;
+                            sumBest = sum;
+                        } else if(countCurrBest==countBest && startIdx<bestStartIdx) {
+                            bestStartIdx = startIdx;
+                            countBest = countCurrBest;
+                            sampleBestRow = row;
+                            bestSample = sample;
+                            sumBest = sum;
+                        } else if(countCurrBest==countBest && bestStartIdx==startIdx) {
+                            if(sum > sumBest) {
+                                countBest = countCurrBest;
+                                sumBest = sum;
+                                sampleBestRow = row;
+                                bestSample = sample;
+                            }
+                        }
+                    }
+                    countPrevBest = countCurrBest;
                 }
             }
-            if (countCurrBest > countPrevBest && sum > sumBest) {
-                countBest = count;
-                sumBest = sum;
-                sampleBestIdx = idx;
-                for (int i = 0; i < n; i++) {
-                    bestSample = sample[i] + " ";
+            if(!isChanged) {
+                if(sum > sumBest) {
+                    sumBest = sum;
+                    sampleBestRow = row;
+                    bestSample = sample;
                 }
             }
-            idx++;
-            input = scanner.nextLine();
+            
+            input = scanner.nextLine();            
         }
-        System.out.printf("Best DNA sample %d with sum: %d.\n%s\n", sampleBestIdx, sumBest, bestSample);
+        System.out.printf("Best DNA sample %d with sum: %d.\n", sampleBestRow, sumBest);
+        for (int i = 0; i < n; i++) {
+            System.out.print(bestSample[i] + " ");
+        }
 
     }
 }
