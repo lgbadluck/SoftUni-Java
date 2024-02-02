@@ -193,10 +193,55 @@ OFFSET 50 ROWS FETCH FIRST 50 ROWS ONLY;
 DECLARE @offval INT
 SET @offval = 50
 DECLARE @fetchval INT
-SET @fetchval = 100
+SET @fetchval = 150
 -- Retrieve rows 51-151
 SELECT orderid, custid, empid, orderdate
 FROM Sales.Orders
 ORDER BY orderdate, orderid DESC
 OFFSET @offval ROWS FETCH FIRST @fetchval ROWS ONLY;
 
+--Handling NULL in Queries
+SELECT custid,city,region,country
+FROM Sales.Customers
+WHERE region IS NOT NULL;
+
+--31 rows
+SELECT COUNT(region)
+FROM Sales.Customers;
+
+--91 rows
+SELECT region
+FROM Sales.Customers
+ORDER BY region DESC;
+
+--interesting, huh? so... 28records here
+SELECT custid, country, region, city
+FROM Sales.Customers
+where region <> N'WA';
+
+--3records here = 31 records (same as the COUNT)
+SELECT custid, country, region, city
+FROM Sales.Customers
+where region = N'WA';
+
+--where are all other records though? -- 88 records
+SELECT custid, country, region, city
+FROM Sales.Customers
+where region <> N'WA' OR region is NULL;
+
+-- Working with Aggregate Functions
+--SELECT AVG(unitprice) AS avg_price
+--MIN(qty) AS min_qty
+--MAX(discount) AS max_discount
+--FROM Sales.OrderDetails
+
+
+--ERROR no GROUP BY
+SELECT orderid, productid, AVG(unitprice), MAX(qty), MAX(discount)
+FROM Sales.OrderDetails
+
+
+-- Select and execute the following query to show
+-- The use of aggreagates with non-numeric data types:
+SELECT MIN(companyname) AS first_cust, MAX(companyname) as last_cust
+FROM Sales.Customers;
