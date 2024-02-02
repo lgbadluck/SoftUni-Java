@@ -259,3 +259,70 @@ MAX(shippeddate) as latest,
 COUNT(shippeddate) as [count_shippeddate],
 COUNT(*) as COUNT_all
 FROM Sales.Orders;
+
+
+-- Using GROUP BY Clause
+--SELECT <select_list>
+--FROM <table_source>
+--WHERE <search_condition>
+--GROUP BY <group_by_list>;
+
+SELECT empid, COUNT(*) AS cnt
+FROM Sales.Orders
+GROUP BY empid;
+
+SELECT custid, COUNT(*) AS cnt
+FROM Sales.Orders
+GROUP BY custid
+ORDER BY cnt DESC
+
+SELECT productid, MAX(qty) AS largest_order
+FROM Sales.OrderDetails
+GROUP BY productid
+ORDER BY largest_order DESC
+
+--Filtering Grouped Data with HAVING
+-- HAVING = WHERE, but for GROUP BY
+SELECT custid, COUNT(*) AS cnt
+FROM Sales.Orders
+GROUP BY custid
+HAVING COUNT(*)>10
+
+SELECT c.contactname, c.custid, COUNT(*) AS cnt
+FROM Sales.Customers AS c
+JOIN Sales.Orders AS o ON c.custid = o.custid
+GROUP BY c.custid, c.contactname
+HAVING COUNT(*) > 1
+
+SELECT p.productname, p.productid, COUNT(*) AS cnt
+FROM Production.Products AS p
+JOIN Sales.OrderDetails AS o ON p.productid = o.productid
+GROUP BY p.productid, p.productname
+HAVING COUNT(*) >= 10
+ORDER BY cnt DESC
+
+
+SELECT empid, COUNT(*) AS cnt
+FROM Sales.Orders
+GROUP BY empid
+ORDER BY cnt DESC
+
+SELECT custid, YEAR(orderdate) AS [year], COUNT(*) AS cnt
+FROM Sales.Orders
+WHERE empid = 4
+GROUP BY custid, YEAR(orderdate)
+ORDER BY cnt DESC
+
+SELECT COUNT(*) AS cnt, AVG(qty) AS [avg_qty]
+FROM Production.Products AS p
+JOIN Sales.OrderDetails AS od ON p.productid = od.productid
+WHERE od.qty > 20
+GROUP BY p.categoryid
+
+
+SELECT COUNT(*) AS cnt, AVG(qty) AS [avg_qty]
+FROM Production.Products AS p
+JOIN Sales.OrderDetails AS od ON p.productid = od.productid
+GROUP BY p.categoryid
+HAVING AVG(qty) > 20
+
