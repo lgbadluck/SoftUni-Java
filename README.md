@@ -6,5 +6,5 @@
 
 You can try the generator directly in your Web browser here:
 
-[<img alt="Play Button" src="https://user-images.githubusercontent.com/85368212/169246359-bc946e73-2c4f-42ff-b980-fe0c229f35c9.png" />]
+<img alt="Play Button" src="(https://github.com/lgbadluck/SoftUni-Java/assets/4021443/2a89cc05-c584-4bd4-9dce-ceb82e5c4833)" />
 (https://replit.com/@lgbadluck/RandomSentenceGenerator)
