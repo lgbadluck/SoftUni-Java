@@ -243,5 +243,19 @@ FROM Sales.OrderDetails
 
 -- Select and execute the following query to show
 -- The use of aggreagates with non-numeric data types:
-SELECT MIN(companyname) AS first_cust, MAX(companyname) as last_cust
+SELECT MIN(companyname) AS first_cust, MAX(companyname) as last_cust --, AVG(companyname) as avg_cust -> This will give error for non-numeric types
 FROM Sales.Customers;
+
+SELECT MIN(orderdate) AS earliest, MAX(orderdate) as latest --, AVG(orderdate) as avg_date -- -> This will give error for non-numeric types
+FROM Sales.Orders;
+
+SELECT shippeddate
+FROM Sales.Orders
+ORDER BY shippeddate;
+
+SELECT 
+MIN(shippeddate) as earliest,
+MAX(shippeddate) as latest,
+COUNT(shippeddate) as [count_shippeddate],
+COUNT(*) as COUNT_all
+FROM Sales.Orders;
