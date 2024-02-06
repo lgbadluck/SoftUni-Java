@@ -108,3 +108,66 @@ ELSE
 BEGIN
 	PRINT 'The specified object exists';
 END
+
+--Converting NULL with ISNULL
+SELECT custid, city, ISNULL(region, 'ami Nqma') AS region, country
+FROM Sales.Customers
+ORDER BY region ASC
+
+--COALESCE to Return Non-NULL Values
+SELECT custid, country, region, city,
+country + ', ' + COALESCE(region + ', ', ' ') + city as location
+FROM Sales.Customers
+
+--First, set up sample date
+CREATE TABLE dbo.employee_goals(emp_id INT, goal int, actual int);
+GO
+--Populate the sample data
+INSERT INTO dbo.employee_goals
+VALUES (1,100, 110), (2,90, 90), (3,100, 90), (4,100, 80);
+--Show the sample date
+SELECT emp_id, goal, actual
+FROM dbo.employee_goals
+--USE NULLIF to show which employees have actual
+--values different from their goals
+SELECT emp_id, NULLIF(actual, goal) AS actual_if_different
+FROM dbo.employee_goals
+
+
+--T-SQL VIEWs (Views can be wrappers for simple or complex SELECT statements)
+--(Views are executed as a query)
+-- |CREATE VIEW <schema_name,view_name> 
+-- |AS
+-- |SELECT
+
+CREATE VIEW HR.getFullNames
+AS
+SELECT empid, firstname + N' '+lastname as fullname
+FROM HR.Employees
+
+
+SELECT empid, fullname
+FROM HR.getFullNames
+WHERE empid=3
+
+CREATE VIEW Sales.fullOrderDetails
+AS
+SELECT o.orderid, o.orderdate, od.productid, od.unitprice, od.qty
+FROM Sales.Orders AS o
+JOIN Sales.OrderDetails AS od
+ON o.orderid = od.orderid
+
+SELECT orderid, orderdate, productid, unitprice, qty
+FROM Sales.fullOrderDetails
+
+CREATE VIEW Sales.employeeSalesByYear
+AS
+SELECT empid, YEAR(orderdate) AS orderyear,
+COUNT(custid) AS all_custs,
+COUNT(DISTINCT custid) AS unique_custs
+FROM Sales.Orders
+GROUP BY empid, YEAR(orderdate)
+
+SELECT empid, orderyear, all_custs, unique_custs
+FROM Sales.employeeSalesByYear
+WHERE orderyear=2006
