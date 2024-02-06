@@ -52,3 +52,59 @@ SELECT DB_NAME() AS [Current Database]
 
 SELECT COUNT(*) AS numorders, SUM(unitprice) AS totalSales
 from Sales.OrderDetails
+
+SELECT productid, productname, unitprice,
+	RANK() OVER(ORDER BY unitprice DESC) AS rankbyprice
+FROM Production.Products
+ORDER BY rankbyprice
+
+SELECT productid, productname, unitprice,
+	DENSE_RANK() OVER(ORDER BY unitprice DESC) AS dense_rankbyprice
+FROM Production.Products
+ORDER BY dense_rankbyprice
+
+SELECT productid, productname, unitprice,
+	NTILE(5) OVER(ORDER BY unitprice DESC) AS ntile_rankbyprice -- Ntile makes them in N-th groups
+FROM Production.Products
+ORDER BY ntile_rankbyprice
+
+SELECT productid, unitprice,
+IIF(unitprice>50, 'high', 'low') AS pricepoint
+FROM Production.Products
+ORDER BY pricepoint
+
+SELECT CHOOSE (3, 'Beverages', 'Condiments', 'Confections') AS choose_result;
+
+--ISDATE
+DECLARE @Name nvarchar(50) = 'XY14822'
+DECLARE @DiscontinuedDate datetime = '12/4/2012'
+SELECT ISDATE(@Name) AS NameISDATE,
+		ISDATE(@DiscontinuedDate) AS DiscontinuedDateISDATE;
+
+--ISNUMERIC
+DECLARE @Name nvarchar(50) = 'XY14822'
+DECLARE @DiscontinuedDate datetime = '12/4/2012'
+DECLARE @DaysToManufacture int = 100
+SELECT ISNUMERIC(@Name) AS NameISNUMERIC,
+		ISNUMERIC(@DiscontinuedDate) AS DiscontinuedDateISNUMERIC,
+		ISNUMERIC(@DaysToManufacture) AS DaysToManufactureISNUMERIC;
+
+--Same resultsm but with CASE
+SELECT productid, unitprice,
+CASE
+	WHEN unitprice > 53 THEN 'high'
+	WHEN unitprice < 53 THEN 'low'
+	ELSE 'Who knows'
+END AS 'pricepoint'
+FROM Production.Products
+ORDER BY unitprice DESC
+
+--A simple IF statement
+IF OBJECT_ID('HR.Employees') IS NULL
+BEGIN
+	PRINT 'The specified object does not exist';
+END
+ELSE
+BEGIN
+	PRINT 'The specified object exists';
+END
