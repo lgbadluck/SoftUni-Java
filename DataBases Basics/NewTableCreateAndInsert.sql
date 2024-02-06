@@ -35,3 +35,20 @@ SELECT OrderID, OrderDate, CONVERT(SMALLDATETIME, OrderDate) AS ConvertDate
   FROM dbo.Data
   WHERE CONVERT(SMALLDATETIME, OrderDate)
   BETWEEN '20110701' AND '20110731';
+
+  SELECT COUNT(*) AS numorderlines, SUM(qty*unitprice) AS totalsales
+  FROM Sales.OrderDetails
+
+  SELECT TOP(5) productid, productname, unitprice,
+  RANK() OVER(ORDER BY unitprice DESC) AS rankByPrice
+  FROM Production.Products
+  ORDER BY rankByPrice
+
+SELECT ABS(-1.0), ABS(0.0), ABS(1.0);
+SELECT CAST(SYSDATETIME() AS DATE) AS [curretDate]
+SELECT DATENAME (dw, CAST (SYSDATETIME () AS DATE)) [currentDay]
+
+SELECT DB_NAME() AS [Current Database]
+
+SELECT COUNT(*) AS numorders, SUM(unitprice) AS totalSales
+from Sales.OrderDetails
