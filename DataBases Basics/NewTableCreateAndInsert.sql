@@ -171,3 +171,4 @@ GROUP BY empid, YEAR(orderdate)
 SELECT empid, orderyear, all_custs, unique_custs
 FROM Sales.employeeSalesByYear
 WHERE orderyear=2006
+
