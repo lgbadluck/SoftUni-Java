@@ -1,13 +1,13 @@
 package groomingSalon;
 
 public class Pet {
-    private String name;
-    private int age;
-    private String owner;
+    public String name;
+    public int    age;
+    public String owner;
 
     @Override
     public String toString() {
-        return name + age + " - (" + owner + ")";
+        return name + " " + age + " - (" + owner + ")";
     }
 
     public Pet(String name, int age, String owner) {

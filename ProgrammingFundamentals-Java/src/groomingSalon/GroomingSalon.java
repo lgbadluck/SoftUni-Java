@@ -5,25 +5,24 @@ import java.util.List;
 
 public class GroomingSalon {
 
-    private int capacity;
-    List<Pet> data;
+    public int capacity;
+    public List<Pet> data;
 
     public GroomingSalon(int capacity) {
         this.capacity = capacity;
         this.data = new ArrayList<>();
     }
 
-    public boolean add(Pet pet) {
+    public void add(Pet pet) {
         if (this.capacity > 0) {
             this.data.add(pet);
             this.capacity--;
-            return true;
-        } else return false;
+        }
     }
 
     public boolean remove(String name) {
         if (!this.data.isEmpty()) {
-            for (int i = 0; i <= this.data.size(); i++) {
+            for (int i = 0; i <= this.data.size()-1; i++) {
                 if (this.data.get(i).getName().equals(name)) {
                     this.data.remove(i);
                     this.capacity++;
