@@ -172,3 +172,156 @@ SELECT empid, orderyear, all_custs, unique_custs
 FROM Sales.employeeSalesByYear
 WHERE orderyear=2006
 
+----------------
+-- SUBQUERIES --
+----------------
+--SELECT ...
+--FROM <table or view>
+--WHERE <column> = (
+--	select ..
+--	....
+--	);
+
+-- NON-Correlated Subqueries
+SELECT orderid, orderdate, custid
+FROM Sales.Orders
+WHERE custid IN (
+	SELECT custid
+	FROM Sales.Customers
+	WHERE city = 'London'
+	)
+ORDER BY orderdate DESC;
+
+-- Correlated Subqueries
+SELECT custid, orderid, orderdate, empid
+FROM Sales.Orders AS O1
+WHERE orderid = (
+	SELECT MAX(O2.orderid)
+	FROM Sales.Orders O2
+	WHERE O2.custid = O1.custid
+	)
+ORDER BY custid ASC
+
+DECLARE @maxid AS INT = (
+SELECT MAX(orderid)
+FROM Sales.Orders
+);
+
+SELECT orderid, orderdate, empid, custid
+FROM Sales.Orders
+WHERE orderid = @maxid
+GO
+
+SELECT orderid, orderdate, custid, empid
+FROM Sales.Orders
+WHERE orderid = (
+	SELECT MAX(O.orderid)
+	FROM Sales.Orders AS O
+);
+
+--42 Rows of employees that have lastname begining with 'B'
+SELECT orderid
+FROM Sales.Orders
+WHERE empid = (
+	SELECT E.empid
+	FROM HR.Employees AS E
+	WHERE E.lastname LIKE N'B%'
+);
+-- THIS will FAIL -> SUBQUERY with multiple scalar results
+SELECT orderid
+FROM Sales.Orders
+WHERE empid = (
+	SELECT E.empid -- to fix "SELECT TOP 1 E.empid"
+	FROM HR.Employees AS E
+	WHERE E.lastname LIKE N'D%'
+);
+
+--No results, no employee with lastname begining with A
+SELECT orderid
+FROM Sales.Orders
+WHERE empid = (
+	SELECT E.empid
+	FROM HR.Employees AS E
+	WHERE E.lastname LIKE N'A%'
+);
+
+--With join
+SELECT O.orderid
+FROM HR.Employees AS E
+JOIN Sales.Orders AS O
+ON E.empid = O.empid
+WHERE E.lastname LIKE N'D%'
+
+-- With Subquery
+SELECT O.custid, O.orderid, O.orderdate, O.empid
+FROM Sales.Orders AS O
+WHERE O.custid IN (
+	SELECT C.custid
+	FROM Sales.Customers AS C
+	WHERE C.country = N'UK'
+) AND empid IN (
+	SELECT E.empid
+	FROM HR.Employees AS E
+	WHERE E.country = N'UK'
+);
+
+-- With JOIN
+SELECT O.custid, O.orderid, O.orderdate, O.empid
+FROM Sales.Orders AS O
+JOIN Sales.Customers AS C
+ON O.custid = C.custid
+JOIN HR.Employees AS E
+ON O.empid = E.empid
+WHERE c.country = N'UK' AND e.country = N'UK'
+
+--Self contained multivalued subquery
+--ALL customers WITHOUT orders
+SELECT custid, companyname
+FROM Sales.Customers
+WHERE custid NOT IN (
+	SELECT O.custid
+	FROM Sales.Orders AS O
+);
+
+GO
+CREATE VIEW totalSumPerOrder AS
+SELECT O.orderid, O.custid, SUM(OD.unitprice*OD.qty) AS Total
+FROM Sales.Orders as O
+JOIN Sales.OrderDetails as OD
+ON O.orderid = OD.orderid
+GROUP BY O.orderid, O.custid
+GO
+
+SELECT *
+FROM totalSumPerOrder
+ORDER BY custid DESC
+
+--USE THE VIEW in Correlated subquery
+-- we can use OrderValues VIEW instead
+SELECT orderid, custid, total,
+CAST (100*total/ (
+					SELECT SUM (TS2.total)
+					FROM totalSumPerOrder AS TS2
+					WHERE TS2.custid = TS1.custid
+					)
+	AS NUMERIC(5,2)) AS pct
+FROM totalSumPerOrder AS TS1
+ORDER BY custid, orderid DESC
+
+-- Use EXISTS in subquery
+SELECT custid, companyname
+FROM Sales.Customers AS c
+WHERE country = N'Spain'
+AND EXISTS (
+	SELECT * FROM Sales.Orders AS o
+	WHERE o.custid = c.custid
+);
+
+-- Use NOT EXISTS in subquery
+SELECT custid, companyname
+FROM Sales.Customers AS c
+WHERE country = N'Spain'
+AND NOT EXISTS (
+	SELECT * FROM Sales.Orders AS o
+	WHERE o.custid = c.custid
+);
