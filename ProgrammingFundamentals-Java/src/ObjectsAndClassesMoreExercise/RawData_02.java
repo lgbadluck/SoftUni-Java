@@ -58,7 +58,7 @@ public class RawData_02 {
         }
     }
 
-    public class Engine {
+    public static class Engine {
         int engineSpeed;
         int enginePower;
 
@@ -69,7 +69,7 @@ public class RawData_02 {
 
     }
 
-    public class Cargo {
+    public static class Cargo {
         int    cargoWeight;
         String cargoType;
 
@@ -83,7 +83,7 @@ public class RawData_02 {
         }
     }
 
-    public class Tire {
+    public static class Tire {
         double tirePressure;
         int    tireAge;
 
