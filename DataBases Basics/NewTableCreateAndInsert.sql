@@ -326,6 +326,7 @@ AND NOT EXISTS (
 	WHERE o.custid = c.custid
 );
 
+
 GO
 CREATE VIEW Sales.qtyPerYear
 AS
@@ -347,3 +348,5 @@ SELECT orderyear, qty,
 ) asaggregateQty
 FROM Sales.qtyPerYear AS q1
 ORDER BY orderyear
+=======
+
