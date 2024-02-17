@@ -1,5 +1,7 @@
 package RandomSentences;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,8 +14,26 @@ public class decodeMessage {
         List<String> legendList = new ArrayList<>();
         List<Integer> numbersList = new ArrayList<>();
 
-        String input = scanner.nextLine();
+        File file = new File("coding_qual_input.txt");
 
+        try {
+
+            Scanner sc = new Scanner(file);
+
+            int countLines = 0;
+            while (sc.hasNextLine()) {
+                countLines++;
+                String nextLine = sc.nextLine();
+                legendList.add(nextLine);
+                Integer num = Integer.parseInt(nextLine.split(" ")[0]);
+                numbersList.add(num);
+                System.out.println("Read this line" + countLines + " -> " + nextLine);
+            }
+            sc.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+/*
         while (!input.equals("end")) {
             legendList.add(input);
             Integer num = Integer.parseInt(input.split(" ")[0]);
@@ -21,7 +41,7 @@ public class decodeMessage {
 
             input = scanner.nextLine();
         }
-
+*/
         System.out.println(legendList.toString());
         System.out.println(numbersList.toString());
         System.out.println("---===Sorting Lists==----");
@@ -38,7 +58,7 @@ public class decodeMessage {
         for (int i = 0; i < numbersList.size(); i++) {
             System.out.print(numbersList.get(i) + " ");
             count++;
-            if(count%step == 0) {
+            if (count % step == 0) {
                 decodeNumsList.add(numbersList.get(i));
                 System.out.print("\n");
                 count = 0;
@@ -64,8 +84,8 @@ public class decodeMessage {
         }
         System.out.println("--Decoded String of Words--");
         System.out.println(decodedStringList.toString()
-                .replace("[","")
-                .replace("]","")
-                .replace(","," "));
+                .replace("[", "")
+                .replace("]", "")
+                .replace(",", " "));
     }
 }
