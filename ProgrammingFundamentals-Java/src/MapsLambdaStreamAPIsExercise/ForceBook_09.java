@@ -19,7 +19,7 @@ public class ForceBook_09 {
                     input = scanner.nextLine();
                     continue;
                 } else {
-                    forceSidesMap.putIfAbsent(force_side, new ArrayList<String>());
+                    forceSidesMap.putIfAbsent(force_side, new ArrayList<>());
                     forceSidesMap.get(force_side).add(force_user);
                     forceUsersMap.putIfAbsent(force_user, null);
                     forceUsersMap.put(force_user, force_side);
@@ -33,14 +33,14 @@ public class ForceBook_09 {
                     String userIsAlreadyOnForceSide = forceUsersMap.get(force_user);
                     forceSidesMap.get(userIsAlreadyOnForceSide).remove(force_user);
                     // Add it to the new force_side (create if not present)
-                    forceSidesMap.putIfAbsent(force_side, new ArrayList<String>());
+                    forceSidesMap.putIfAbsent(force_side, new ArrayList<>());
                     forceSidesMap.get(force_side).add(force_user);
                     // Change the forceUsersMap to have correct force_side (change sides) and create side if not present
                     forceUsersMap.putIfAbsent(force_user, null);
                     forceUsersMap.put(force_user, force_side);
                 } else {
                     // Add it to the new force_side (create if not present)
-                    forceSidesMap.putIfAbsent(force_side, new ArrayList<String>());
+                    forceSidesMap.putIfAbsent(force_side, new ArrayList<>());
                     forceSidesMap.get(force_side).add(force_user);
                     // Change the forceUsersMap to have correct force_side (change sides) and create side if not present
                     forceUsersMap.putIfAbsent(force_user, null);
