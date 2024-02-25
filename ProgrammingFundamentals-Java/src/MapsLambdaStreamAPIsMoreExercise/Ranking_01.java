@@ -34,8 +34,7 @@ public class Ranking_01 {
                         boolean isPresentContest = false;
                         for (Map.Entry<String, ArrayList<ContestPoints>> entry : contestStatsMap.entrySet()) {
                             if (entry.getKey().equals(userName) ) {
-                                for (Iterator<ContestPoints> it = entry.getValue().iterator(); it.hasNext(); ) {
-                                    ContestPoints user = it.next();
+                                for (ContestPoints user : entry.getValue()) {
                                     if (user.getContestName().equals(contestName)) {
                                         if (points > user.getPoints()) {
                                             user.setPoints(points);
@@ -62,11 +61,8 @@ public class Ranking_01 {
         // Create a TreeMap and pass the LinkedHashMap as an argument
         TreeMap<String, ArrayList<ContestPoints>> sortedMap = new TreeMap<>(contestStatsMap);
         // Create a custom Comparator that compares the points of two ContestPoints objects
-        Comparator<ContestPoints> pointsComparator = new Comparator<ContestPoints>() {
-            @Override
-            public int compare(ContestPoints o1, ContestPoints o2) {
-                return o2.points - o1.points; // descending order
-            }
+        Comparator<ContestPoints> pointsComparator = (o1, o2) -> {
+            return o2.points - o1.points; // descending order
         };
         // Sort each ArrayList in the TreeMap by the pointsComparator
         for (ArrayList<ContestPoints> list : sortedMap.values()) {
@@ -78,9 +74,8 @@ public class Ranking_01 {
         int sumPointsBestCandidate = -1;
         for (Map.Entry<String, ArrayList<ContestPoints>> entry : sortedMap.entrySet()) {
             int tempSumPoints = 0;
-            for (Iterator<ContestPoints> it = entry.getValue().iterator(); it.hasNext(); ) {
-                ContestPoints user = it.next();
-                tempSumPoints+=user.getPoints();
+            for (ContestPoints user : entry.getValue()) {
+                tempSumPoints += user.getPoints();
             }
             if (tempSumPoints>sumPointsBestCandidate) {
                 bestCandidate = entry.getKey();
@@ -92,15 +87,14 @@ public class Ranking_01 {
 
         for (Map.Entry<String, ArrayList<ContestPoints>> entry : sortedMap.entrySet()) {
             System.out.printf("%s\n", entry.getKey());
-            for (Iterator<ContestPoints> it = entry.getValue().iterator(); it.hasNext(); ) {
-                ContestPoints user = it.next();
+            for (ContestPoints user : entry.getValue()) {
                 System.out.printf("#  %s -> %d\n", user.getContestName(), user.getPoints());
             }
         }
     }
 
     public static class ContestPoints {
-        private String contestName;
+        private final String contestName;
         private int points;
 
         public String getContestName() {
