@@ -6,6 +6,14 @@ public class TextFilter_04 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        int n = Integer.parseInt(scanner.nextLine());
+        String[] bannedWords = scanner.nextLine().split(", ");
+        String textToEdit = scanner.nextLine();
+
+        for(String word : bannedWords) {
+            String replaceWith = "*".repeat(word.length());
+            textToEdit = textToEdit.replace(word, replaceWith);
+        }
+
+        System.out.println(textToEdit);
     }
 }
