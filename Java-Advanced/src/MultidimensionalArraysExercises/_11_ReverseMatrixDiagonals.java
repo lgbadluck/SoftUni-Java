@@ -24,13 +24,16 @@ public class _11_ReverseMatrixDiagonals {
         int row = rows - 1;
         int col = cols - 1;
 
+
         while (row != -1){
             int r = row;
             int c = col;
+            StringBuilder output = new StringBuilder();
             while (c < cols && r >= 0){
-                System.out.print(matrix[r--][c++] + " ");
+                output.append(matrix[r--][c++]);
+                output.append(" ");
             }
-            System.out.println();
+            System.out.println(output);
             col--;
             if(col == -1){
                 col = 0;
