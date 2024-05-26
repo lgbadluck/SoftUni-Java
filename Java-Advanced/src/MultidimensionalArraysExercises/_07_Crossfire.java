@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class _07_Crossfire {
+    // 40/100 in Judge => Fix it Later
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
