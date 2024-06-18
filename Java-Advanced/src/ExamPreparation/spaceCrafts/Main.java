@@ -1,10 +1,9 @@
 package ExamPreparation.spaceCrafts;
 
-
 public class Main {
+
     public static void main(String[] args) {
 
-        //TODO
         //Initialize the repositories (LaunchPad)
         LaunchPad kennedySC = new LaunchPad("Kennedy Space Center", 3);
         LaunchPad capeCanaveralAFS = new LaunchPad("Cape Canaveral Air Force Station", 5);
@@ -22,7 +21,9 @@ public class Main {
         kennedySC.addSpacecraft(magellan);
         kennedySC.addSpacecraft(huygens); //This launchpad is at full capacity!
 
+
         capeCanaveralAFS.addSpacecraft(voyager1);
+
 
         //Get Spacecraft By Mission Type
         kennedySC.getSpacecraftsByMissionType("Orbiter").forEach(spacecraft -> System.out.println(spacecraft.getName()));
@@ -30,22 +31,27 @@ public class Main {
         //Cassini-Huygens
         //Magellan
 
-        capeCanaveralAFS.getSpacecraftsByMissionType("ass").forEach(spacecraft -> System.out.println(spacecraft.getName()));
+
         capeCanaveralAFS.getSpacecraftsByMissionType("Multiple Flybys").forEach(spacecraft -> System.out.println(spacecraft.getName()));
         //Voyager-1
+
 
         //Remove Spacecraft
         System.out.println(capeCanaveralAFS.removeSpacecraft("Voyager-1")); //true
 
+
         //Launchpad Get Count Of Spacecrafts
         System.out.println(capeCanaveralAFS.getCount()); //0
+
 
         //Spacecraft toString()
         System.out.println(galileo);
         //The mission of Galileo was to reach Europa and to study Jupiter and its mysterious moons
 
+
         //Get Heaviest Spacecraft
         System.out.println(kennedySC.getHeaviestSpacecraft()); //Magellan - 3445kg.
+
 
         //LaunchPad Get Statistics
         System.out.println(kennedySC.getStatistics());
@@ -54,8 +60,11 @@ public class Main {
         //2. Cassini-Huygens
         //3. Magellan
 
+
         System.out.println(capeCanaveralAFS.getStatistics());
         //Spacecrafts launched from Cape Canaveral Air Force Station:
         //none
+
+
     }
 }
