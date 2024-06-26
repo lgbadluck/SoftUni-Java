@@ -4,62 +4,71 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
+
         Scanner scanner = new Scanner(System.in);
 
-            int[] dimestions = Arrays.stream(scanner.nextLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-            int x = dimestions[0];
-            int y = dimestions[1];
+        int[] dimensions = Arrays.stream(scanner.nextLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        int rows = dimensions[0];
+        int cols = dimensions[1];
 
-            int[][] matrix = new int[x][y];
+        int[][] matrix = new int[rows][cols];
+        fillTheMatrix(rows, cols, matrix);
 
-            int value = 0;
-            for (int i = 0; i < x; i++)
-            {
-                for (int j = 0; j < y; j++)
-                {
-                    matrix[i][j] = value++;
-                }
+        long totalStars = 0;
+
+        String command = scanner.nextLine();
+        while (!command.equals("Let the Force be with you")) {
+
+            int[] jediCoordinates = Arrays.stream(command.split(" ")).mapToInt(Integer::parseInt).toArray();
+            int[] evilCoordinates = Arrays.stream(scanner.nextLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+            // Кординати на лошият човек
+            int evilRow = evilCoordinates[0];
+            int evilCol = evilCoordinates[1];
+            moveEvilPlayer(evilRow, evilCol, matrix);
+
+            // Кординати да джедая
+            int jediRow = jediCoordinates[0];
+            int jediCol = jediCoordinates[1];
+            totalStars = moveJediPlayerAndCollectStars(jediRow, jediCol, matrix, totalStars);
+
+            command = scanner.nextLine();
+        }
+
+        System.out.println(totalStars);
+    }
+
+    private static long moveJediPlayerAndCollectStars(int jediRow, int jediCol, int[][] matrix, long totalStars) {
+
+        while (jediRow >= 0 && jediCol < matrix[1].length) {
+            if (jediRow < matrix.length && jediCol >= 0 && jediCol < matrix[0].length) {
+                totalStars += matrix[jediRow][jediCol];
             }
+            jediCol++;
+            jediRow--;
+        }
+        return totalStars;
+    }
 
-            String command = scanner.nextLine();
-            long sum = 0;
-            while (!command.equals("Let the Force be with you"))
-            {
-                int[] ivoS = Arrays.stream(command.split(" ")).mapToInt(Integer::parseInt).toArray();
-                int[] evil = Arrays.stream(scanner.nextLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-                int xE = evil[0];
-                int yE = evil[1];
+    private static void moveEvilPlayer(int evilRow, int evilCol, int[][] matrix) {
 
-                while (xE >= 0 && yE >= 0)
-                {
-                    if (xE >= 0 && xE < matrix.length && yE >= 0 && yE < matrix[0].length)
-                    {
-                        matrix[xE] [yE] = 0;
-                    }
-                    xE--;
-                    yE--;
-                }
-
-                int xI = ivoS[0];
-                int yI = ivoS[1];
-
-                while (xI >= 0 && yI < matrix[1].length)
-                {
-                    if (xI >= 0 && xI < matrix.length && yI >= 0 && yI < matrix[0].length)
-                    {
-                        sum += matrix[xI][yI];
-                    }
-
-                    yI++;
-                    xI--;
-                }
-
-                command = scanner.nextLine();
+        while (evilRow >= 0 && evilCol >= 0) {
+            if (evilRow < matrix.length && evilCol < matrix[0].length) {
+                matrix[evilRow][evilCol] = 0;
             }
+            evilRow--;
+            evilCol--;
+        }
+    }
 
-        System.out.println(sum);
+    private static void fillTheMatrix(int rows, int cols, int[][] matrix) {
 
-
+        int value = 0;
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                matrix[row][col] = value++;
+            }
+        }
     }
 }
