@@ -23,6 +23,7 @@ public class Main {
         double bonus = Double.parseDouble(reader.readLine());
         for (Person person : people) {
             person.increaseSalary(bonus);
+            //System.out.println(person.toString());
             System.out.println(person.toString());
         }
 
