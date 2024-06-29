@@ -6,11 +6,11 @@ import java.util.List;
 public class Team {
     private String name;
 
-    private List<Player> players;
+    private final List<Player> players;
 
     public Team(String name) {
         setName(name);
-        this.players = new ArrayList<Player>();
+        this.players = new ArrayList<>();
     }
 
     private void setName(String name) {

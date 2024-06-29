@@ -22,10 +22,8 @@ public class Player {
     }
 
     public double overallSkillLevel() {
-        double skillLevel = 0;
-
+        double skillLevel;
         skillLevel = (endurance + sprint + dribble + passing + shooting) / 5.0;
-
         return skillLevel;
     }
 

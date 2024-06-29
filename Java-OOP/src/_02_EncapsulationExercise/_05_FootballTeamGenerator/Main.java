@@ -8,13 +8,13 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         String input = scanner.nextLine();
-        LinkedHashMap<String, Team> teamsMap = new LinkedHashMap();
+        LinkedHashMap<String, Team> teamsMap = new LinkedHashMap<>();
 
         while (!input.equals("END")) {
             String[] commands = input.split(";");
             String methodToCall = commands[0];
             String teamName = commands[1];
-            String playerName = "";
+            String playerName;
 
             switch (methodToCall) {
                 case "Team":
