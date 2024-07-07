@@ -22,6 +22,7 @@ public class Main {
             try {
                 switch (animalType) {
                     case "Dog":
+
                         animalList.add(new Dog(name, age, gender));
                         break;
                     case "Frog":
@@ -38,12 +39,12 @@ public class Main {
                         break;
                 }
             } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+                System.out.print(e.getMessage());
             }
 
             input = scanner.nextLine();
         }
 
-        animalList.forEach(System.out::println);
+        if (!animalList.isEmpty()) animalList.forEach(System.out::println);
     }
 }

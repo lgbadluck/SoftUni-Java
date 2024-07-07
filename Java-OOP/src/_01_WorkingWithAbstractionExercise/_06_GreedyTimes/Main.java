@@ -38,6 +38,7 @@ public class Main {
                 }
             } else if (name.toLowerCase().equals("gold")) {
                 element = "Gold";
+                name = element;
             } else continue;
 
             bag.putIfAbsent((element), new LinkedHashMap<>());
