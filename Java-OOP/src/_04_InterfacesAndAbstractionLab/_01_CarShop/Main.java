@@ -1,4 +1,4 @@
-package _01_CarShop;
+package _04_InterfacesAndAbstractionLab._01_CarShop;
 
 public class Main {
     public static void main(String[] args) {
