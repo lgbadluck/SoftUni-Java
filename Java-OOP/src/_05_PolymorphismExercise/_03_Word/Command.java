@@ -1,4 +1,4 @@
-package word;
+package _05_PolymorphismExercise._03_Word;
 
 public class Command {
     private String text;
